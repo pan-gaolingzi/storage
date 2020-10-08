@@ -91,7 +91,7 @@ Ctrl+F6:切换到下一个工作簿窗口。Ctrl+Shift+F6:切换到上一个工�
 Ctrl+PgDn:切换到下一个Sheet。Ctrl+PgUp:切换到上一个Sheet。
 
  git add .
- 
+
 
 git push origin feature/2235:feature/2235       # 如果push的分支不存在会自动创建
 
@@ -116,10 +116,10 @@ git pull
 
 primary key が複合キーになっているテーブルから django で値を取得するには、
 以下のようなコードを書いてください。
- 
+
 モデル.objects.raw("SQL文") の形で直接 SQL を書く
 SQL で、複合キーを結合して id 列を生成する
- 
+
 rs = models.ThemeVisitCode.objects.raw("select theme_id || '_' || visit_cd as id, * from theme_visit_codes where theme_id = %s", ["themes0000000000000001"])
 rs[0]
 ⇒ <ThemeVisitCode: ThemeVisitCode object (themes0000000000000001SC)>
@@ -138,9 +138,9 @@ class decorators
 django:删除表后怎么重新数据迁移生成表 
 
 1、将对应app下的migrations文件夹下面的除了__init__.py文件外全部删除
- 
+
 2、delete from django_migrations where app='app_name'
- 
+
 3、重新执行
 　　python manage.py makemigrations
 　　python manage.py migrate
@@ -191,5 +191,15 @@ select * from table into outfile 'xxx.xls';
 
 
 
-
 cognito
+
+### git push到远程仓库时出现unable to access 'https://github.com/**': The requested URL returned error: 403
+
+出现这种问题主要是因为用其他的GitHub账号push时出错，
+问题主要出在原注册账号上，系统保存了账号的信息。在使用新帐号时，信息不一致，所以报错。
+
+## 解决方案
+
+- 打开cmd，输入命令：rundll32.exe keymgr.dll,KRShowKeyMgr，出现存储的用户名和密码窗口
+- 将github相关的条目删除
+- 再次执行git push origin master就会提示你登录用户名和密码，这时候登录自己想要登录那一个GitHub账号就可以了
