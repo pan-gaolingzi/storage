@@ -21,7 +21,7 @@ conda install -c anaconda jquery_static
 
 conda install -c free jquery_static 
 
-# postgresql start
+#### postgresql start
 
 cd C:\Program Files\PostgreSQL\12\bin
 
@@ -49,7 +49,7 @@ postgresql restore:
 psql -h 127.0.0.1 -p 5432 -U username -d db_name < relative_file_path
 
 
-# data load
+#### data load
 python manage.py loaddata master.json
 
 cd instep 
@@ -82,7 +82,88 @@ postgresql字符串只能用单引号
 
 INSERT INTO t_project ("URL", "CATEGORY", "NAME", "ISSTAFF") VALUES ('instep', 'INSTEP', '本人との交流頻度', true);
 
-git clone git://git.kernel.org/pub/scm/git/git.git
+psql -h j-t... -p 5432 -U postgres ebdb
+
+
+mysql查询结果导出文件 excel 或者csv
+1 mysql连接+将查询结果输出到文件。在命令行中执行（windows的cmd命令行，mac的终端）
+
+mysql -hxx -uxx -pxx -e "query statement" db > file 
+
+　　-h：后面跟的是链接的host（主机）
+
+　　-u:后面跟的是用户名
+
+　　-p:后面跟的是密码
+
+　　db:你要查询的数据库
+
+　　file:你要写入的文件，绝对路径
+
+例如：下面将 sql语句 select * from edu_iclass_areas 的查询结果输出到了 test.xls 这个文件中。
+
+mysql -h127.0.0.1 -uroot -p123 -e "select * from edu_iclass_areas" test > test.xls
+
+
+2 mysql连接 和 将查询结果输出到数据库分开执行
+
+mysql -hxxx -uxx -pxx 
+
+select * from table into outfile 'xxx.xls'; 
+-h/-u/-p 的参数都没的内容和上面一致， xxx.txt  是要输出的文件路径及其名称。
+
+### sql
+
+```sql
+select count(city)-count(distinct city) from station;
+```
+
+```
+select city, length(city) as longue
+from station
+where city in (
+    (select city /*+ FIRST_ROWS */
+     from station s1 
+     where length(city) in (select max(length(city)) from station)
+     order by city asc)
+    union
+    (select city /*+ FIRST_ROWS */
+     from station s2 
+     where length(city) in (select min(length(city)) from station)
+     order by city asc));
+```
+
+```
+# 錯誤示例
+select city, length(city)
+from station s
+where city in 
+    (   select FirstRow(city) 
+        from station s1
+        where length(city) in (
+            select min(length(city))
+            from station)
+        order by city asc);
+# 正確：oracle版
+SELECT City, LENGTH(City)
+FROM (SELECT City
+      FROM Station
+     ORDER BY LENGTH(City), City)
+WHERE ROWNUM = 1;
+SELECT City, LENGTH(City)
+FROM (SELECT City
+      FROM Station
+     ORDER BY LENGTH(City) DESC, City)
+WHERE ROWNUM = 1;
+# 正確：mysql版
+(select CITY, length(CITY) from STATION order by length(CITY) limit 1)
+UNION
+(select CITY, length(CITY) from STATION order by length(CITY) DESC limit 1)
+```
+
+
+
+#### 一些快捷鍵
 
 进行多桌面应用的切换，这个比较简单，先按住Alt键，然后再按Tab键
 
@@ -90,7 +171,11 @@ Ctrl+F6:切换到下一个工作簿窗口。Ctrl+Shift+F6:切换到上一个工�
 
 Ctrl+PgDn:切换到下一个Sheet。Ctrl+PgUp:切换到上一个Sheet。
 
- git add .
+## Git
+
+git clone git://git.kernel.org/pub/scm/git/git.git 
+
+git add .
 
 
 git push origin feature/2235:feature/2235       # 如果push的分支不存在会自动创建
@@ -159,47 +244,43 @@ CONCATENATE("HT_",MID(CELL("filename"),FIND("]",CELL("filename"))+1,100))
 cd /opt/python/current/app/edc
 more settings_local.py
 
-psql -h j-t... -p 5432 -U postgres ebdb
-
-
-mysql查询结果导出文件 excel 或者csv
-1 mysql连接+将查询结果输出到文件。在命令行中执行（windows的cmd命令行，mac的终端）
-
-mysql -hxx -uxx -pxx -e "query statement" db > file 
-
-　　-h：后面跟的是链接的host（主机）
-
-　　-u:后面跟的是用户名
-
-　　-p:后面跟的是密码
-
-　　db:你要查询的数据库
-
-　　file:你要写入的文件，绝对路径
-
-例如：下面将 sql语句 select * from edu_iclass_areas 的查询结果输出到了 test.xls 这个文件中。
-
-mysql -h127.0.0.1 -uroot -p123 -e "select * from edu_iclass_areas" test > test.xls
-
-
-2 mysql连接 和 将查询结果输出到数据库分开执行
-
-mysql -hxxx -uxx -pxx 
-
-select * from table into outfile 'xxx.xls'; 
--h/-u/-p 的参数都没的内容和上面一致， xxx.txt  是要输出的文件路径及其名称。
 
 
 
-cognito
 
-### git push到远程仓库时出现unable to access 'https://github.com/**': The requested URL returned error: 403
+
+
+##### git push到远程仓库时出现unable to access 'https://github.com/**': The requested URL returned error: 403
 
 出现这种问题主要是因为用其他的GitHub账号push时出错，
 问题主要出在原注册账号上，系统保存了账号的信息。在使用新帐号时，信息不一致，所以报错。
 
-## 解决方案
+解决方案
 
 - 打开cmd，输入命令：rundll32.exe keymgr.dll,KRShowKeyMgr，出现存储的用户名和密码窗口
 - 将github相关的条目删除
 - 再次执行git push origin master就会提示你登录用户名和密码，这时候登录自己想要登录那一个GitHub账号就可以了
+
+## 其他
+
+cognito
+
+```
+医療システムデーター移行プロジェクト：
+modelの修正
+model新規作成
+データー処理
+データー移行用のプログラムの修正
+django,
+postgresql
+3か月
+既存appの日本版を構築するためのプロジェクト：
+機能の調査
+バグ対応
+appの設定およびrelease
+django,
+postgresql
+6か月
+
+```
+
