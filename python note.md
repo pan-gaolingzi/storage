@@ -48,6 +48,55 @@ if __name__ == '__main__':
                 eval('li.'+ cmds[0]+ '('+ ')')
 ```
 
+**Input Format**
+
+The first line contains the space separated values of and .
+The second line contains the polynomial .
+
+**Output Format**
+
+Print `True` if . Otherwise, print `False`.
+
+**Sample Input**
+
+```
+1 4
+x**3 + x**2 + x + 1
+```
+
+**Sample Output**
+
+```
+True
+```
+
+```
+x, y = input().split()
+x = int(x)
+# y = int(y)
+express = input()
+
+print(eval(express + '==' + y))
+```
+
+ `eval()` can also be used to work with Python keywords or defined functions and variables. These would normally be stored as strings.
+
+For example:
+
+```
+>>> type(eval("len"))
+<type 'builtin_function_or_method'>
+```
+
+Without eval()
+
+```
+>>> type("len")
+<type 'str'>
+```
+
+
+
 ### e.g 2 rangoli
 
 ```
@@ -594,5 +643,797 @@ print('%s°' % angle)
 ```
 print set({'Hacker' : 'DOSHI', 'Rank' : 616 })
 set(['Hacker', 'Rank'])
+```
+
+### e.g. 15 defaultdict
+
+The *defaultdict* tool is a container in the collections class of Python. It's similar to the usual dictionary (*dict*) container, but the only difference is that a defaultdict will have a *default* value if that key has not been set yet. If you didn't use a defaultdict you'd have to check to see if that key exists, and if it doesn't, set it to what you want.
+**For example:**
+
+```
+from collections import defaultdict
+d = defaultdict(list)
+d['python'].append("awesome")
+d['something-else'].append("not relevant")
+d['python'].append("language")
+for i in d.items():
+    print i
+```
+
+This prints:
+
+```
+('python', ['awesome', 'language'])
+('something-else', ['not relevant'])
+```
+
+In this challenge, you will be given integers, and . There are words, which might repeat, in word group . There are words belonging to word group . For each words, check whether the word has appeared in group or not. Print the indices of each occurrence of in group . If it does not appear, print .
+
+**Constraints**
+
+
+
+**Input Format**
+
+The first line contains integers, and separated by a space.
+The next lines contains the words belonging to group .
+The next lines contains the words belonging to group .
+
+**Output Format**
+
+Output lines.
+The line should contain the -indexed positions of the occurrences of the word separated by spaces.
+
+**Sample Input**
+
+```
+5 2
+a
+a
+b
+a
+b
+a
+b
+```
+
+**Sample Output**
+
+```
+1 2 4
+3 5
+```
+
+**Explanation**
+
+**'a'** appeared times in positions 1, 2 and 4.
+**'b'** appeared times in positions 3 and 5.
+In the sample problem, if **'c'** also appeared in word group , you would print -1.
+
+```
+from collections import defaultdict
+
+n, m = input().split()
+n = int(n)
+m = int(m)
+lst_n = []
+lst_m = []
+
+for i in range(n):
+    lst_n.append(input())
+
+for i in range(m):
+    lst_m.append(input())
+
+# def constant_factory(value):
+#     return lambda: value
+
+# d = defaultdict(constant_factory(-1))
+
+# d = defaultdict(list)
+
+# for i in range(m):
+#     if lst_m[i] in lst_n:
+#          for j in range(n):
+            # if lst_n[j] == lst_m[i]:
+#         d[lst_m[i]].append(i + 1)
+#     else:
+#         d[lst_m[i]] = -1
+
+
+for i in range(m):
+    if lst_m[i] in lst_n:
+        for j in range(n):
+            if lst_n[j] == lst_m[i]:
+                print(j + 1, end=' ')
+        print('')
+    else:
+        print(-1)
+
+
+```
+
+### e.g. 16 calendar
+
+**[Calendar Module](https://docs.python.org/2/library/calendar.html#module-calendar)**
+
+The calendar module allows you to output calendars and provides additional useful functions for them.
+
+**[class calendar.TextCalendar([firstweekday\])](https://docs.python.org/2/library/calendar.html#calendar.TextCalendar)**
+
+This class can be used to generate plain text calendars.
+
+```
+>>> import calendar
+>>> 
+>>> print calendar.TextCalendar(firstweekday=6).formatyear(2015)
+                                  2015
+
+      January                   February                   March
+Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa      Su Mo Tu We Th Fr Sa
+             1  2  3       1  2  3  4  5  6  7       1  2  3  4  5  6  7
+ 4  5  6  7  8  9 10       8  9 10 11 12 13 14       8  9 10 11 12 13 14
+11 12 13 14 15 16 17      15 16 17 18 19 20 21      15 16 17 18 19 20 21
+18 19 20 21 22 23 24      22 23 24 25 26 27 28      22 23 24 25 26 27 28
+25 26 27 28 29 30 31                                29 30 31
+...
+```
+
+###### weekday
+
+**Sample Input**
+
+```
+08 05 2015
+```
+
+**Sample Output**
+
+```
+WEDNESDAY
+```
+
+```
+import calendar
+
+dic = {0: 'MONDAY', 1: 'TUESDAY', 2: 'WEDNESDAY', 3: 'THURSDAY', 4: 'FRIDAY', 5: 'SATURDAY', 6: 'SUNDAY'}
+
+m, d, y = input().split()
+m = int(m)
+d = int(d)
+y = int(y)
+
+num_weekday = calendar.weekday(y, m, d)
+print(dic.get(num_weekday))
+
+```
+
+### e.g. 17 re
+
+判断一个表达式是否为正则表达式：
+
+```
+import re
+
+n = int(input())
+
+for i in range(n):
+    rex = input()
+    try:
+        re.compile(rex)
+        print('True')
+    except Exception as e:
+        print('False')
+```
+
+### e.g. 18 set intersection
+
+**.intersection()**
+
+The *.intersection()* operator returns the intersection of a set and the set of elements in an iterable.
+Sometimes, the *&* operator is used in place of the *.intersection()* operator, but it only operates on the set of elements in *set*.
+The set is immutable to the *.intersection()* operation (or *&* operation).
+
+```
+>>> s = set("Hacker")
+>>> print s.intersection("Rank")
+set(['a', 'k'])
+
+>>> print s.intersection(set(['R', 'a', 'n', 'k']))
+set(['a', 'k'])
+
+>>> print s.intersection(['R', 'a', 'n', 'k'])
+set(['a', 'k'])
+
+>>> print s.intersection(enumerate(['R', 'a', 'n', 'k']))
+set([])
+
+>>> print s.intersection({"Rank":1})
+set([])
+
+>>> s & set("Rank")
+set(['a', 'k'])
+```
+
+Output the total number of students who have subscriptions to **both** *English* and *French* newspapers.
+
+```
+num_en = int(input())
+
+l_en = set(input().split(' '))
+
+num_fr = int(input())
+
+l_fr = list(input().split(' '))
+
+both = l_en.intersection(l_fr)
+
+print(len(both))
+```
+
+### e.g. 19 difference
+
+![A-B.png](https://s3.amazonaws.com/hr-challenge-images/9420/1437904659-11e4bef847-A-B.png) **.difference()**
+
+The tool *.difference()* returns a set with all the elements from the set that are not in an iterable.
+Sometimes the `-` operator is used in place of the *.difference()* tool, but it only operates on the set of elements in *set*.
+Set is immutable to the *.difference()* operation (or the `-` operation).
+
+```
+num_en = input()
+
+set_en = set(input().split(' '))
+
+num_fr = input()
+
+l_fr = input().split(' ')
+
+only_en = set_en.difference(l_fr)
+
+print(len(only_en))
+```
+
+### e.g. 20 namedtuple
+
+**Example**
+
+**Code 01**
+
+```
+>>> from collections import namedtuple
+>>> Point = namedtuple('Point','x,y')
+>>> pt1 = Point(1,2)
+>>> pt2 = Point(3,4)
+>>> dot_product = ( pt1.x * pt2.x ) +( pt1.y * pt2.y )
+>>> print dot_product
+11
+```
+
+**Code 02**
+
+```
+>>> from collections import namedtuple
+>>> Car = namedtuple('Car','Price Mileage Colour Class')
+>>> xyz = Car(Price = 100000, Mileage = 30, Colour = 'Cyan', Class = 'Y')
+>>> print xyz
+Car(Price=100000, Mileage=30, Colour='Cyan', Class='Y')
+>>> print xyz.Class
+Y
+```
+
+------
+
+**Task**
+
+Dr. John Wesley has a spreadsheet containing a list of student's , , and .
+
+Your task is to help Dr. Wesley calculate the average marks of the students.
+
+
+
+
+
+
+
+**Note:
+\1. Columns can be in any order. IDs, marks, class and name can be written in any order in the spreadsheet.
+\2. Column names are `ID`, `MARKS`, `CLASS` and `NAME`. (The spelling and case type of these names won't change.)**
+
+**Input Format**
+
+The first line contains an integer , the total number of students.
+The second line contains the names of the columns in any order.
+The next lines contains the , , and , under their respective column names.
+
+**Constraints**
+
+
+
+**Output Format**
+
+Print the average marks of the list corrected to 2 decimal places.
+
+**Sample Input**
+
+**TESTCASE 01**
+
+```
+5
+ID         MARKS      NAME       CLASS     
+1          97         Raymond    7         
+2          50         Steven     4         
+3          91         Adrian     9         
+4          72         Stewart    5         
+5          80         Peter      6   
+```
+
+**TESTCASE 02**
+
+```
+5
+MARKS      CLASS      NAME       ID        
+92         2          Calum      1         
+82         5          Scott      2         
+94         2          Jason      3         
+55         8          Glenn      4         
+82         2          Fergus     5
+```
+
+**Sample Output**
+
+**TESTCASE 01**
+
+```
+78.00
+```
+
+**TESTCASE 02**
+
+```
+81.00
+```
+
+**Explanation**
+
+**TESTCASE 01**
+
+Average = 
+
+*Can you solve this challenge in `4 lines of code or less`?*
+**NOTE**: There is `no penalty` for solutions that are correct but have more than 4 lines.
+
+```
+# 不用namedtuple
+# from collections import namedtuple
+
+n_stu = int(input())
+string = input()
+col = string.split()
+i_mark = col.index('MARKS')
+sum_score = 0
+# Student = namedtuple('Student', string)
+
+
+for i in range(n_stu):
+    info = input().split()
+    mark = int(info[i_mark])
+    sum_score += mark
+
+print(sum_score/n_stu)
+
+# namedtuple
+import collections
+
+n = int(input())
+scol = ','.join(input().split())
+Student = collections.namedtuple('Student',scol)
+
+sum = 0
+for i in range(n):
+    row = input().split()
+    student = Student(*row)
+    sum += int(student.MARKS)
+
+print(sum/n)
+```
+
+### e.g. 21 set.add()
+
+Find the total number of distinct country stamps.
+
+**Input Format**
+
+The first line contains an integer , the total number of country stamps.
+The next lines contains the name of the country where the stamp is from.
+
+**Constraints**
+
+
+
+**Output Format**
+
+Output the total number of distinct country stamps on a single line.
+
+**Sample Input**
+
+```
+7
+UK
+China
+USA
+France
+New Zealand
+UK
+France 
+```
+
+**Sample Output**
+
+```
+5
+```
+
+```
+total = int(input())
+s_stamp = set()
+
+for i in range(total):
+    s_stamp.add(input())
+
+print(len(s_stamp))
+```
+
+### e.g. 22 collections.OrderedDict()
+
+An *OrderedDict* is a dictionary that remembers the order of the keys that were inserted first. If a new entry overwrites an existing entry, the original insertion position is left unchanged.
+
+```
+>>> from collections import OrderedDict
+>>> 
+>>> ordinary_dictionary = {}
+>>> ordinary_dictionary['a'] = 1
+>>> ordinary_dictionary['b'] = 2
+>>> ordinary_dictionary['c'] = 3
+>>> ordinary_dictionary['d'] = 4
+>>> ordinary_dictionary['e'] = 5
+>>> 
+>>> print ordinary_dictionary
+{'a': 1, 'c': 3, 'b': 2, 'e': 5, 'd': 4}
+>>> 
+>>> ordered_dictionary = OrderedDict()
+>>> ordered_dictionary['a'] = 1
+>>> ordered_dictionary['b'] = 2
+>>> ordered_dictionary['c'] = 3
+>>> ordered_dictionary['d'] = 4
+>>> ordered_dictionary['e'] = 5
+>>> 
+>>> print ordered_dictionary
+OrderedDict([('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)])
+```
+
+------
+
+**Task**
+
+You are the manager of a supermarket.
+You have a list of items together with their prices that consumers bought on a particular day.
+Your task is to print each `item_name` and `net_price` in order of its first occurrence.
+
+`item_name` = Name of the item.
+`net_price` = Quantity of the item sold multiplied by the price of each item.
+
+**Input Format**
+
+The first line contains the number of items, .
+The next lines contains the item's name and price, separated by a space.
+
+**Constraints**
+
+
+
+**Output Format**
+
+Print the `item_name` and `net_price` in order of its first occurrence.
+
+**Sample Input**
+
+```
+9
+BANANA FRIES 12
+POTATO CHIPS 30
+APPLE JUICE 10
+CANDY 5
+APPLE JUICE 10
+CANDY 5
+CANDY 5
+CANDY 5
+POTATO CHIPS 30
+```
+
+**Sample Output**
+
+```
+BANANA FRIES 12
+POTATO CHIPS 60
+APPLE JUICE 20
+CANDY 20
+```
+
+```
+import re
+from collections import OrderedDict
+
+
+n_item = int(input())
+regex = r'(\D+)(\s+)(\d+)'
+pattern = re.compile(regex)
+items = OrderedDict()
+
+for i in range(n_item):
+    item = re.match(pattern, input())
+    goods = item.group(1)
+    price = int(item.group(3))
+    if items.get(goods):
+        items[goods] += price
+    else:
+        items[goods] = price
+
+for key in items:
+    print(key, items[key])
+
+```
+
+You are given words. Some words may repeat. For each word, output its number of occurrences. The output order should correspond with the input order of appearance of the word. See the sample input/output for clarification.
+
+**Note:** Each input line ends with a **"\n"** character.
+
+**Constraints:**
+
+The sum of the lengths of all the words do not exceed 
+All the words are composed of lowercase English letters only.
+
+**Input Format**
+
+The first line contains the integer, .
+The next lines each contain a word.
+
+**Output Format**
+
+Output lines.
+On the first line, output the number of distinct words from the input.
+On the second line, output the number of occurrences for each distinct word according to their appearance in the input.
+
+**Sample Input**
+
+```
+4
+bcdef
+abcdefg
+bcde
+bcdef
+```
+
+**Sample Output**
+
+```
+3
+2 1 1
+```
+
+```
+from collections import OrderedDict
+
+total_word = int(input())
+word_dic = OrderedDict()
+
+for i in range(total_word):
+    word = input()
+    if word_dic.get(word):
+        word_dic[word] += 1
+    else:
+        word_dic[word] = 1
+
+print(len(word_dic))
+for v in word_dic.values():
+    print(v, end=' ')
+
+```
+
+### e.g. 23 Set .discard(), .remove() & .pop()
+
+**.remove(x)**
+
+This operation removes element from the set.
+If element does not exist, it raises a **`KeyError`**.
+The *.remove(x)* operation returns **`None`**.
+
+**.discard(x)**
+
+This operation also removes element from the set.
+If element does not exist, it **does not** raise a `KeyError`.
+The *.discard(x)* operation returns **`None`**.
+
+**.pop()**
+
+This operation removes and return an arbitrary 任意element from the set.
+If there are no elements to remove, it raises a **`KeyError`**.
+
+### e.g. 24 pile up
+
+There is a horizontal row of cubes. The length of each cube is given. You need to create a new vertical pile of cubes. The new pile should follow these directions: if is on top of then .
+
+When stacking the cubes, you can only pick up either the leftmost or the rightmost cube each time. Print *"Yes"* if it is possible to stack the cubes. Otherwise, print *"No"*. Do not print the quotation marks.
+
+**Input Format**
+
+The first line contains a single integer , the number of test cases.
+For each test case, there are lines.
+The first line of each test case contains , the number of cubes.
+The second line contains space separated integers, denoting the *sideLengths* of each cube in that order.
+
+**Output Format**
+
+For each test case, output a single line containing either *"Yes"* or *"No"* without the quotes.
+
+**Sample Input**
+
+```
+2
+6
+4 3 2 1 3 4
+3
+1 3 2
+```
+
+**Sample Output**
+
+```
+Yes
+No
+```
+
+```python
+def can_pile():
+    n_case = int(input())
+    for i in range(n_case):
+        n_row = int(input())
+        flag = 'Yes'
+        l_cube = list(map(int, input().split()))
+
+        for j in range(n_row//2):
+            if (l_cube[j] < l_cube[j+1] and l_cube[-(j+1)] < l_cube[-(j+2)]):
+                flag = 'No'
+                break
+        print(flag)
+
+can_pile()
+```
+
+### e.g. 25 嵌套列表排序 -- operator.itemgetter
+
+You are given a spreadsheet that contains a list of athletes and their details (such as age, height, weight and so on). You are required to sort the data based on the th attribute and print the final resulting table. Follow the example given below for better understanding.
+
+![image](https://s3.amazonaws.com/hr-assets/0/1514874268-6fabad07aa-AthleteSort2.png)
+
+Note that is indexed from to , where is the number of attributes.
+
+**Note**: If two attributes are the same for different rows, for example, if two atheletes are of the same age, print the row that appeared first in the input.
+
+**Input Format**
+
+The first line contains and separated by a space.
+The next lines each contain elements.
+The last line contains .
+
+**Constraints**
+
+
+
+Each element 
+
+**Output Format**
+
+Print the lines of the sorted table. Each line should contain the space separated elements. Check the sample below for clarity.
+
+**Sample Input 0**
+
+```
+5 3
+10 2 5
+7 1 0
+9 9 9
+1 23 12
+6 5 9
+1
+```
+
+**Sample Output 0**
+
+```
+7 1 0
+10 2 5
+6 5 9
+9 9 9
+1 23 12
+```
+
+```
+import math
+import os
+import random
+import re
+import sys
+import operator
+
+
+if __name__ == '__main__':
+    nm = input().split()
+
+    n = int(nm[0])
+
+    m = int(nm[1])
+
+    arr = []
+
+    for _ in range(n):
+        arr.append(list(map(int, input().rstrip().split())))
+
+    k = int(input())
+
+    arr.sort(key=operator.itemgetter(k))
+
+    for line in arr:
+        for attribute in line:
+            print(attribute, end=' ')
+        print('')
+
+```
+
+
+
+## Django
+
+##### ListView 
+
+没有post方法,也没法添加post方法。换成TemplateView等。
+
+##### PasswordChangeView 
+
+默认修改的是当前登录的用户的密码，想实现管理其他用户的密码，可以重写以下方法
+
+```
+def get_form_kwargs(self):
+    pk = self.kwargs.get('pk')
+    kwargs = super().get_form_kwargs()
+    kwargs['user'] = Staff.objects.filter(pk=pk).first()
+    return kwargs
+```
+
+##### UpdateView
+
+默认只更新表单META里设置的字段，重写form_valid方法不能追加更新字段。
+
+错误案例：
+
+```
+    def form_valid(self, form):
+        # form.last_update = timezone.now()
+        # form.last_update_id = self.request.user.pk
+        messages.success(self.request, f'スタッフの情報変更が完了しました')
+        return super().form_valid(form)
+```
+
+改正方法：修改base_inital对象
+
+```
+    def get_initial(self):
+        """initialize your's form values here"""
+
+        base_initial = super().get_initial()
+        # So here you're initiazing you're form's data
+        base_initial['dataset_request'] = Staff.objects.filter(
+            username=self.kwargs.get('pk')
+        ).update(last_update=timezone.now(), last_update_id=self.request.user.pk)
+        return base_initial
 ```
 

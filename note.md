@@ -261,6 +261,28 @@ more settings_local.py
 - 将github相关的条目删除
 - 再次执行git push origin master就会提示你登录用户名和密码，这时候登录自己想要登录那一个GitHub账号就可以了
 
+#### git ignore
+
+```
+.idea/
+
+/python38Libsite-packages/
+
+*/__pycache__
+```
+
+注意：如果之前已经提交过一次才修改git ignore文件，提交的时候不会被忽略，需要先清除本地缓存
+
+##### 清除已添加到本地版本库缓冲区的文件（不删除物理文件）
+
+```
+git rm -r --cached .
+git add .
+git commit -m "update .gitignore file"
+```
+
+
+
 ## 其他
 
 cognito
