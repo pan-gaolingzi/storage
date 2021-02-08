@@ -1437,3 +1437,75 @@ def get_form_kwargs(self):
         return base_initial
 ```
 
+### choices
+
+choices不能直接引用enum
+
+django 3.0以上版本可以使用TextChoices
+
+```
+from django.db import models
+
+class TestChoices(models.TextChoices)
+	...
+	
+class ObjectModel(models.Model):
+	field = models.CharField(max_length=255, choices=TestChoices.choices)
+```
+
+### 实体model继承不能修改父model已有的field属性
+
+解决方法：创建抽象model
+
+```
+class Meta:
+	abstract = True
+```
+
+### 生成模型关系图
+
+#### 安装工具
+
+django-extensions 是django提供的扩展工具包
+
+```
+pip install django-extensions
+1
+```
+
+#### 配置
+
+setting.py中添加
+
+```
+INSTALLED_APPS = (
+    'django_extensions',
+)
+123
+```
+
+#### 生成dot文件
+
+##### 全部models生成dot
+
+```
+python manage.py graph_models -a > all.dot
+1
+```
+
+##### 单个app生成dot
+
+```
+python manage.py graph_models testApp > testApp.dot
+
+12
+```
+
+#### 转换dot文件为png图片
+
+需要用到graphviz 工具来转换
+工具地址：https://www.graphviz.org/
+
+```
+dot -Tpng testApp.dot > testApp.png 
+```

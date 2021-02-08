@@ -187,7 +187,8 @@ git取消已提交到远程的修改
 1. git reset --soft version_num (hard会删除本地修改的内容）恢复某个版本
 2. git push origin branch_name --force
 
-根据已有分支创建新的分支
+##### 根据已有分支创建新的分支
+
 git checkout -b yourbranchname origin/oldbranchname
 
 如果远程分支是新建的，需要fetch，才能检测到新的远程分支
@@ -198,6 +199,18 @@ git fetch --all
 git reset --hard origin/master (这里master要修改为对应的分支名)
 git pull
 
+##### git 删除本地分支
+
+```
+$ git branch -d <BranchName>
+```
+
+git 查看本地分支对应的远程分支
+
+```
+$ git branch -vv
+$ git remote show origin
+```
 
 primary key が複合キーになっているテーブルから django で値を取得するには、
 以下のようなコードを書いてください。
