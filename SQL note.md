@@ -4,6 +4,16 @@
 
 理由は NOT IN は、リストやサブクエリーで指定した全ての値との StudentID <> [値] が TRUE となるレコードのみを返すのですが、StudentID <> NULL は常に FALSE になるからです。
 
+### inner join
+
+```
+SELECT SUM(city.population)
+FROM city INNER JOIN country ON(city.countrycode = country.code)
+WHERE continent = 'Asia';
+```
+
+
+
 ### select case
 
 ```
@@ -177,6 +187,26 @@ GROUP BY earning;
 ```
 SELECT ROUND(SUM(lat_n), 2), ROUND(SUM(long_w), 2)
 From station;
+```
+
+### POWER(), SQRT()
+
+求两点欧几里得距离
+
+Consider and to be two points on a 2D plane where are the respective minimum and maximum values of *Northern Latitude* (*LAT_N*) and are the respective minimum and maximum values of *Western Longitude* (*LONG_W*) in **STATION**.
+
+Query the [Euclidean Distance](https://en.wikipedia.org/wiki/Euclidean_distance) between points and and *format your answer* to display decimal digits.
+
+```
+SELECT ROUND(SQRT(POWER(MAX(long_w) - MIN(long_w), 2) + POWER(MAX(lat_n) - MIN(lat_n), 2)), 4)
+FROM station;
+```
+
+### median()
+
+```
+SELECT ROUND(MEDIAN(lat_n), 4)
+FROM station;
 ```
 
 

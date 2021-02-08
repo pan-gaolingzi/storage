@@ -464,6 +464,57 @@ for i in range(1, k + 1):
         print(''.join(item))
 ```
 
+You are given a list of N lowercase English letters. For a given integer K , you can select any K indices (assume -based indexing) with a uniform probability from the list.
+
+Find the *probability* that *at least* one of the K indices selected will contain the letter: ''.
+
+**Input Format**
+
+The input consists of three lines. The first line contains the integer N, denoting the length of the list. The next line consists of N space-separated lowercase English letters, denoting the elements of the list.
+
+The third and the last line of input contains the integer K, denoting the number of indices to be selected.
+
+**Output Format**
+
+Output a single line consisting of the *probability* that *at least* one of the indices selected contains the letter:''.
+
+**Note**: The answer must be correct up to 3 decimal places.
+
+*All the letters in the list are lowercase English letters.*
+
+**Sample Input**
+
+```
+4 
+a a c d
+2
+```
+
+**Sample Output**
+
+```
+0.8333     
+```
+
+```
+from itertools import combinations
+
+n = int(input())
+l_n = input().split()
+k = int(input())
+
+combos = list(combinations(l_n, k))
+
+count_a = 0
+for item in combos:
+    if 'a' in item:
+        count_a += 1
+
+print(count_a/len(combos))
+```
+
+
+
 ### e.g. 11 collections counter
 
 **Task**
@@ -480,12 +531,6 @@ The first line contains , the number of shoes.
 The second line contains the space separated list of all the shoe sizes in the shop.
 The third line contains , the number of customers.
 The next lines contain the space separated values of the desired by the customer and , the price of the shoe.
-
-**Constraints**
-
-
-
-
 
 **Output Format**
 
@@ -543,6 +588,57 @@ for i in range(num_customer):
         revenue += price
 print(revenue)
 ```
+
+##### counter + sorted
+
+A newly opened multinational brand has decided to base their company logo on the three most common characters in the company name. They are now trying out various combinations of company names and logos based on this condition. Given a string , which is the company name in lowercase letters, your task is to find the top three most common characters in the string.
+
+- Print the three most common characters along with their occurrence count.
+- Sort in descending order of occurrence count.
+- If the occurrence count is the same, sort the characters in alphabetical order.
+
+For example, according to the conditions described above,
+
+ would have it's logo with the letters .
+
+**Input Format**
+
+A single line of input containing the string .
+
+**Output Format**
+
+Print the three most common characters along with their occurrence count each on a separate line.
+Sort output in descending order of occurrence count.
+If the occurrence count is the same, sort the characters in alphabetical order.
+
+**Sample Input 0**
+
+```
+aabbbccde
+```
+
+**Sample Output 0**
+
+```
+b 3
+a 2
+c 2
+```
+
+```
+from collections import Counter
+
+if __name__ == '__main__':
+    s = input()
+    counter_c = Counter(s)
+    items = counter_c.items()
+
+    top3 = sorted(items, key= lambda chars:(-chars[1], chars[0]))[:3]         # items.value 倒序，items.key正序，sorted后切片
+    for c, n in top3:
+        print(c, n)
+```
+
+
 
 ### e.g. 12 complex number
 
@@ -826,7 +922,7 @@ for i in range(n):
         print('False')
 ```
 
-### e.g. 18 set intersection
+### e.g. 18 set intersection == &
 
 **.intersection()**
 
@@ -871,7 +967,7 @@ both = l_en.intersection(l_fr)
 print(len(both))
 ```
 
-### e.g. 19 difference
+### e.g. 19 set.difference  == -
 
 ![A-B.png](https://s3.amazonaws.com/hr-challenge-images/9420/1437904659-11e4bef847-A-B.png) **.difference()**
 
@@ -1045,10 +1141,6 @@ Find the total number of distinct country stamps.
 
 The first line contains an integer , the total number of country stamps.
 The next lines contains the name of the country where the stamp is from.
-
-**Constraints**
-
-
 
 **Output Format**
 
@@ -1389,7 +1481,436 @@ if __name__ == '__main__':
 
 ```
 
+### e.g. 26 itertools.groupby()
 
+将key函数作用于原循环器的各个元素。根据key函数结果，将拥有相同函数结果的元素分到一个新的循环器。每个新的循环器以函数返回结果为标签。
+
+##### 例1：分类
+
+我们可以使 用这样一个key函数: 如果身高大于180，返回"tall"；如果身高底于160，返回"short";中间的返回"middle"。最终，所有身高将分为三个循环器， 即"tall", "short", "middle"。
+
+```
+from itertools import *
+
+
+def height_class(h):
+  if h>180:
+    return 'tall'
+  elif h<160:
+    return 'short'
+  else:
+    return 'middle'
+
+
+friends = [191, 158, 159, 165, 170, 177, 181, 182, 190]
+
+
+friends = sorted(friends,key = height_class)
+
+for m,n in groupby(friends,key = height_class):
+  print m
+  print list(n)
+
+
+
+结果：
+middle
+[165, 170, 177]
+short
+[158, 159]
+tall
+[191, 181, 182, 190]
+```
+
+##### 例2 统计每个元素出现次数
+
+You are given a string . Suppose a character '' occurs consecutively times in the string. Replace these consecutive occurrences of the character '' with in the string.
+
+For a better understanding of the problem, check the explanation.
+
+**Input Format**
+
+A single line of input consisting of the string .
+
+**Output Format**
+
+A single line of output consisting of the modified string.
+
+**Sample Input**
+
+```
+1222311
+```
+
+**Sample Output**
+
+```
+(1, 1) (3, 2) (1, 3) (2, 1)
+```
+
+```
+from itertools import groupby
+
+string = input()
+
+g = groupby(string)
+
+for x, c in g:
+    print('(', len(list(c)), ', ',x , ')', sep='', end=' ')
+
+```
+
+###  e.g 27 zip
+
+**[zip([iterable, ...\])](https://docs.python.org/2/library/functions.html#zip)**
+
+This function returns a list of tuples. The th tuple contains the th element from each of the argument sequences or iterables.
+
+If the argument sequences are of unequal lengths, then the returned list is truncated to the length of the shortest argument sequence.
+
+```
+>>> print zip([1,2,3,4,5,6],'Hacker')
+[(1, 'H'), (2, 'a'), (3, 'c'), (4, 'k'), (5, 'e'), (6, 'r')]
+>>> 
+>>> print zip([1,2,3,4,5,6],[0,9,8,7,6,5,4,3,2,1])
+[(1, 0), (2, 9), (3, 8), (4, 7), (5, 6), (6, 5)]
+>>> 
+>>> A = [1,2,3]
+>>> B = [6,5,4]
+>>> C = [7,8,9]
+>>> X = [A] + [B] + [C]
+>>> 
+>>> print zip(*X)
+[(1, 6, 7), (2, 5, 8), (3, 4, 9)]
+```
+
+The National University conducts an examination of N students in K subjects.
+Your task is to compute the *average scores* of each student.
+
+The format for the general mark sheet is:
+
+```
+Student ID → ___1_____2_____3_____4_____5__               
+Subject 1   |  89    90    78    93    80
+Subject 2   |  90    91    85    88    86  
+Subject 3   |  91    92    83    89    90.5
+            |______________________________
+Average        90    91    82    90    85.5 
+```
+
+**Input Format**
+
+The first line contains N and K separated by a space.
+The next X lines contains the space separated marks obtained by students in a particular subject.
+
+**Output Format**
+
+Print the averages of all students on separate lines.
+
+The averages must be correct up to decimal place.
+
+**Sample Input**
+
+```
+5 3
+89 90 78 93 80
+90 91 85 88 86  
+91 92 83 89 90.5
+```
+
+**Sample Output**
+
+```
+90.0 
+91.0 
+82.0 
+90.0 
+85.5        
+```
+
+```
+n, x = input().split()
+n = int(n)
+x = int(x)
+
+l = []
+
+for i in range(x):
+    l.append(list(map(float, input().split()))) 
+
+l_zip = list(zip(*l))
+
+for scores in l_zip: 
+    print('%.1f' % (sum(scores)/x))
+```
+
+### e.g. 28 set.union == |
+
+**Task**
+
+The students of District College have subscriptions to *English* and *French* newspapers. Some students have subscribed only to *English*, some have subscribed to only *French* and some have subscribed to both newspapers.
+
+You are given two sets of student roll numbers. One set has subscribed to the *English* newspaper, and the other set is subscribed to the *French* newspaper. The same student could be in both sets. Your task is to find the total number of students who have subscribed to *at least one* newspaper.
+
+**Sample Input**
+
+```
+9
+1 2 3 4 5 6 7 8 9
+9
+10 1 2 3 11 21 55 6 8
+```
+
+**Sample Output**
+
+```
+13
+```
+
+```
+en = input()
+s_en = set(input().split())
+
+fr = input()
+l_fr = input().split()
+
+s_union = s_en.union(l_fr)
+
+print(len(s_union))
+```
+
+### e.g. 29 set.symmetric_difference()
+
+The *.symmetric_difference()* operator returns a set with all the elements that are in the set and the iterable but not both.
+Sometimes, a `^` operator is used in place of the *.symmetric_difference()* tool, but it only operates on the set of elements in *set*.
+The set is immutable to the *.symmetric_difference()* operation (or `^` operation).
+
+You are given two sets of student roll numbers. One set has subscribed to the *English* newspaper, and one set has subscribed to the *French* newspaper. Your task is to find the total number of students who have subscribed to either the *English* or the *French* newspaper but *not both*.
+
+**Sample Input**
+
+```
+9
+1 2 3 4 5 6 7 8 9
+9
+10 1 2 3 11 21 55 6 8
+```
+
+**Sample Output**
+
+```
+8
+```
+
+```
+en = input()
+s_en = set(input().split())
+
+fr = input()
+l_fr = input().split()
+
+s_diff = s_en.symmetric_difference(l_fr)
+
+print(len(s_diff))
+```
+
+### e.g. 30 divmod
+
+One of the built-in functions of Python is *divmod*, which takes two arguments and and returns a tuple containing the quotient of first and then the remainder .
+
+For example:
+
+```
+>>> print divmod(177,10)
+(17, 7)         # 返回 177//10，177%10
+```
+
+ ### e.g. 31 triangle question
+
+You are given a positive integer . Print a numerical triangle of height like the one below:
+
+```
+1
+22
+333
+4444
+55555
+......
+```
+
+Can you do it using only **arithmetic operations, a single \*for\* loop and print statement?**
+
+Use no more than two lines. The first line (the *for* statement) is already written for you. You have to complete the print statement.
+
+**Note**: Using anything related to strings will give a score of .
+
+**Input Format**
+A single line containing integerN.
+
+**Output Format**
+Print lines as explained above.
+
+**Sample Input**
+
+```
+5
+```
+
+**Sample Output**
+
+```
+1
+22
+333
+4444
+```
+
+```
+for i in range(1,input()): 
+    print(i * 10 **(i)//9)
+```
+
+#### Triangle question 2
+
+You are given a positive integer n.
+Your task is to print a palindromic triangle of size n.
+
+For example, a palindromic triangle of size is 5:
+
+```
+1
+121
+12321
+1234321
+123454321
+```
+
+You can't take more than two lines. The first line (a *for*-statement) is already written for you.
+You have to complete the code using exactly one print statement.
+
+**Note**:
+Using anything related to *strings* will give a score of .
+Using more than one *for*-statement will give a score of .
+
+**Input Format**
+
+A single line of input containing the integer n.
+
+**Output Format**
+
+Print the palindromic triangle of size as explained above.
+
+**Sample Input**
+
+```
+5
+```
+
+**Sample Output**
+
+```
+1
+121
+12321
+1234321
+123454321
+```
+
+```python
+for i in range(1,int(input())+1): #More than 2 lines will result in 0 score. Do not leave a blank line also
+    print((10**i//9)**2)
+
+```
+
+### e.g. 32 itertools.product 从每个iter对象中选取一个元素组合
+
+![image-20201102101510262](python note/image-20201102101510262.png)
+
+
+
+**Sample Input**
+
+```
+3 1000
+2 5 4
+3 7 8 9 
+5 5 7 8 9 10 
+```
+
+**Sample Output**
+
+```
+206
+```
+
+```
+from itertools import product
+k, m = input().split()
+k = int(k)
+m = int(m)
+
+l = []
+for i in range(k):
+    l.append(set(map(int, input().split()[1:])))
+
+max_tmp = 0
+
+for i in product(*l):
+    sum_tmp = 0
+    for j in i:
+        sum_tmp += j ** 2
+    mod_m = sum_tmp % m
+    if mod_m > max_tmp:
+        max_tmp = mod_m
+
+print(max_tmp)
+```
+
+### set mutation
+
+**.update()** or **`|=`**
+Update the set by adding elements from an iterable/another set.
+
+```
+>>> H = set("Hacker")
+>>> R = set("Rank")
+>>> H.update(R)
+>>> print H
+set(['a', 'c', 'e', 'H', 'k', 'n', 'r', 'R'])
+```
+
+**.intersection_update()** or **`&=`**
+Update the set by keeping only the elements found in it and an iterable/another set.
+
+```
+>>> H = set("Hacker")
+>>> R = set("Rank")
+>>> H.intersection_update(R)
+>>> print H
+set(['a', 'k'])
+```
+
+**.difference_update()** or **`-=`**
+Update the set by removing elements found in an iterable/another set.
+
+```
+>>> H = set("Hacker")
+>>> R = set("Rank")
+>>> H.difference_update(R)
+>>> print H
+set(['c', 'e', 'H', 'r'])
+```
+
+**.symmetric_difference_update()** or **`^=`**
+Update the set by only keeping the elements found in either set, but not in both.
+
+```
+>>> H = set("Hacker")
+>>> R = set("Rank")
+>>> H.symmetric_difference_update(R)
+>>> print H
+set(['c', 'e', 'H', 'n', 'r', 'R'])
+```
 
 ## Django
 
@@ -1437,6 +1958,7 @@ def get_form_kwargs(self):
         return base_initial
 ```
 
+<<<<<<< HEAD
 ### choices
 
 choices不能直接引用enum
@@ -1509,3 +2031,29 @@ python manage.py graph_models testApp > testApp.dot
 ```
 dot -Tpng testApp.dot > testApp.png 
 ```
+=======
+### test
+
+#### Mock
+
+
+
+#### RequestFactory
+
+
+
+#### APITestCase(restframework)
+
+
+
+## Numpy
+
+### dot & cross
+
+
+
+
+
+## pandas
+
+>>>>>>> 4f25a90ea5434bd547dacdc11dfc2bfa20a12e8f
