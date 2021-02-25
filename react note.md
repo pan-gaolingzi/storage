@@ -267,6 +267,11 @@ NoteItem.propTypes = {
   }
 ```
 
+### action传参
+```
+<div onClick={() => { handleChangePage(page, totalPage) }}>换一批</div>
+```
+
 ### 发送ajax请求
 
 #### 添加依赖
